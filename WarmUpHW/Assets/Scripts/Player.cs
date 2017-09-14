@@ -1,14 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
 
     public float speed;
     public float distanceBetweenFriends;
     public Camera mainCamera;
-    List<GameObject> friends = new List<GameObject>();
-    private int friendNum;
+    public List<GameObject> friends = new List<GameObject>();
+    public int friendNum;
+    public GameObject jumpIndicator;
+    public Vector3 jumpIndicatorOffset;
+    public bool endGame;
+    public Text time;
+    float elapsedTime = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -19,7 +25,14 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        mainCamera.transform.position = new Vector3(transform.position.x, 0, -10);
+        elapsedTime += Time.deltaTime;
+        time.text = (elapsedTime).ToString("F0");
+
+        if (!endGame)
+        {
+            mainCamera.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
+        }
+        jumpIndicator.transform.position = friends[friendNum].transform.position + jumpIndicatorOffset;
 
         for (int i = 1; i < friends.Count; i++)
         {
